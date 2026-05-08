@@ -13,8 +13,8 @@ api.interceptors.request.use((config) => {
 });
 
 // ── Auth ──────────────────────────────────────────────
-export const login = (email, password) =>
-  api.post('/auth/login', { email, password }).then((r) => r.data);
+export const login = (name, password) =>
+  api.post('/auth/login', { name, password }).then((r) => r.data);
 
 export const register = (name, email, password) =>
   api.post('/auth/register', { name, email, password }).then((r) => r.data);

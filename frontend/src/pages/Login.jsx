@@ -5,8 +5,18 @@ import { useAuth } from '../context/AuthContext.jsx';
 import '../styles/auth.css';
 import bookLogo from "../assets/logo.png";
 
+const FLOATING_BOOKS = [
+  { top: '6%',  left: '8%',  rotate: '-12deg', color: '#4a6741', w: 26, h: 38 },
+  { top: '12%', left: '72%', rotate: '15deg',  color: '#8b3a2a', w: 20, h: 32 },
+  { top: '30%', left: '85%', rotate: '-9deg',  color: '#2a3f6a', w: 18, h: 28 },
+  { top: '50%', left: '4%',  rotate: '20deg',  color: '#7a5c2a', w: 22, h: 34 },
+  { top: '65%', left: '80%', rotate: '-18deg', color: '#5c3a5a', w: 16, h: 26 },
+  { top: '78%', left: '18%', rotate: '8deg',   color: '#c8860a', w: 24, h: 36 },
+  { top: '85%', left: '90%', rotate: '-6deg',  color: '#3a5c4a', w: 20, h: 30 },
+  { top: '4%',  left: '40%', rotate: '18deg',  color: '#6b3a1a', w: 14, h: 22 },
+];
+
 const BOOKS = [
-  // Row 4 (top)
   [
     { w: 14, h: 62, color: '#8b3a2a' },
     { w: 11, h: 55, color: '#4a6741' },
@@ -20,7 +30,6 @@ const BOOKS = [
     { w: 15, h: 65, color: '#5a4020' },
     { w: 10, h: 48, color: '#3a5a3a' },
   ],
-  // Row 3
   [
     { w: 16, h: 70, color: '#6b3a1a' },
     { w: 13, h: 60, color: '#1a4a5c' },
@@ -33,7 +42,6 @@ const BOOKS = [
     { w: 11, h: 54, color: '#2a4a2a' },
     { w: 15, h: 62, color: '#7a2a2a' },
   ],
-  // Row 2
   [
     { w: 18, h: 78, color: '#2a3a5c' },
     { w: 11, h: 56, color: '#6b4a2a' },
@@ -45,7 +53,6 @@ const BOOKS = [
     { w: 16, h: 68, color: '#7a4a7a' },
     { w: 10, h: 52, color: '#5a6b2a' },
   ],
-  // Row 1 (bottom)
   [
     { w: 15, h: 66, color: '#4a5c8b' },
     { w: 12, h: 58, color: '#7a3a2a' },
@@ -59,24 +66,39 @@ const BOOKS = [
   ],
 ];
 
+function FloatingBook({ top, left, rotate, color, w, h, delay }) {
+  return (
+    <div
+      className="floating-book"
+      style={{
+        position: 'absolute',
+        top, left,
+        width: w, height: h,
+        background: color,
+        borderRadius: '2px 4px 4px 2px',
+        transform: `rotate(${rotate})`,
+        opacity: 0.45,
+        animationDelay: delay,
+      }}
+    />
+  );
+}
+
 function Bookshelf() {
-  const rowBottoms = ['48px', '140px', '230px', '318px'];
+  const rowBottoms   = ['48px', '140px', '230px', '318px'];
   const shelfBottoms = ['42px', '134px', '224px', '312px'];
 
   return (
     <div className="bookshelf">
       <div className="glow-top" />
-
       <div className="lamp">
         <div className="lamp-arm" />
         <div className="lamp-head" />
       </div>
       <div className="lamp-light-cone" />
-
       {shelfBottoms.map((b, i) => (
         <div key={i} className="shelf-line" style={{ bottom: b }} />
       ))}
-
       {[...BOOKS].reverse().map((row, ri) => (
         <div key={ri} className="shelf-row" style={{ bottom: rowBottoms[ri] }}>
           {row.map((book, bi) => (
@@ -99,19 +121,19 @@ function Bookshelf() {
 }
 
 export default function Login() {
-  const [email, setEmail] = useState('');
+  const [name, setname]       = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  const { loginUser } = useAuth();
-  const navigate = useNavigate();
+  const [error, setError]       = useState('');
+  const [loading, setLoading]   = useState(false);
+  const { loginUser }           = useAuth();
+  const navigate                = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
     try {
-      const data = await login(email, password);
+      const data = await login(name, password);
       loginUser(data);
       navigate('/');
     } catch (err) {
@@ -122,6 +144,15 @@ export default function Login() {
 
   return (
     <div className="auth-page">
+
+      {/* Floating books background */}
+      <div className="login-bg">
+        {FLOATING_BOOKS.map((b, i) => (
+          <FloatingBook key={i} {...b} delay={`${i * 0.45}s`} />
+        ))}
+        <div className="login-bg-glow" />
+      </div>
+
       <div className="auth-card">
 
         {/* Left panel — bookshelf */}
@@ -149,12 +180,12 @@ export default function Login() {
 
           <form onSubmit={handleSubmit} className="auth-form">
             <div className="form-group">
-              <label>Email</label>
+              <label>Name</label>
               <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="abc@gmail.com"
+                type="text"
+                value={name}
+                onChange={(e) => setname(e.target.value)}
+                placeholder="Full Name"
                 required
               />
             </div>

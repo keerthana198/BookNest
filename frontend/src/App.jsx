@@ -6,7 +6,6 @@ import BookDetails from './pages/BookDetails.jsx';
 import Explore from './pages/Explore.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
-import './styles/App.css';
 
 export default function App() {
   return (

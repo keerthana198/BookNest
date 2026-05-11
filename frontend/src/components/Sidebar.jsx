@@ -7,10 +7,10 @@ const genres = ['Fiction', 'Fantasy', 'Romance', 'Mystery', 'Thriller', 'Biograp
 const navItems = [
   { icon: '🏠', label: 'Home', path: '/' },
   { icon: '📚', label: 'My Library', path: '/my-library', protected: true },
-  { icon: '⭐', label: 'My Reviews', path: '/my-reviews', protected: true },
-  { icon: '❤️', label: 'Liked Reviews', path: '/liked', protected: true },
-  //{ icon: '👤', label: 'Profile', path: '/profile', protected: true },
- // { icon: '⚙️', label: 'Settings', path: '/settings' },
+//{ icon: '⭐', label: 'My Reviews', path: '/my-reviews', protected: true },
+//{ icon: '❤️', label: 'Liked Reviews', path: '/liked', protected: true },
+//{ icon: '👤', label: 'Profile', path: '/profile', protected: true },
+//{ icon: '⚙️', label: 'Settings', path: '/settings' },
 ];
 
 export default function Sidebar() {

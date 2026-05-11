@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://booknest-backend-9.onrender.com/',
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   headers: { 'Content-Type': 'application/json' },
 });
 
@@ -62,13 +62,9 @@ export const getReviews = (bookId) =>
 
 export const postReview = (bookId, rating, comment) =>
   api.post('/reviews', { bookId, rating, comment }).then((r) => r.data);
-export const likeReview = async (id) => {
-  const res = await fetch(`/api/reviews/${id}/like`, { method: 'PATCH' });
-  return res.json();
-};
+export const likeReview = (id) =>
+  api.patch(`/reviews/${id}/like`).then((r) => r.data);
 
-export const dislikeReview = async (id) => {
-  const res = await fetch(`/api/reviews/${id}/dislike`, { method: 'PATCH' });
-  return res.json();
-};
+export const dislikeReview = (id) =>
+  api.patch(`/reviews/${id}/dislike`).then((r) => r.data);
 export default api;
